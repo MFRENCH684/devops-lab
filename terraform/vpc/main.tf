@@ -8,43 +8,43 @@ terraform {
 }
 
 provider "aws" {
- region = "us-east-1"
+ region = var.aws_region
 }
 
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support = true
 
   tags = {
     Name = "devops-lab-vpc"
-    Environment = "lab"
-    Owner = "mfrench"
+    Environment = var.environment
+    Owner = var.owner
   }
 }
 
 resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = var.public_subnet_cidr
   availability_zone = "us-east-1a"
   map_public_ip_on_launch = true
 
   tags = {
     Name = "devops-lab-public"
-    Environment = "lab"
-    Owner = "mfrench"
+    Environment = var.environment
+    Owner = var.owner
   }
 }
 
 resource "aws_subnet" "private" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = var.private_subnet_cidr
   availability_zone = "us-east-1b"
 
   tags = {
     Name = "devops-lab-private"
-    Environment = "lab"
-    Owner = "mfrench"
+    Environment = var.environment
+    Owner = var.owner
   }
 }
 
@@ -53,8 +53,8 @@ resource "aws_internet_gateway" "main" {
 
   tags = {
     Name = "devops-lab-igw"
-    Environment = "lab"
-    Owner = "mfrench"
+    Environment = var.environment
+    Owner = var.owner
   }
 }
 
@@ -68,8 +68,8 @@ resource "aws_route_table" "public" {
 
   tags = {
     Name = "devops-lab-public-rt"
-    Environment = "lab"
-    Owner = "mfrench"
+    Environment = var.environment
+    Owner = var.owner
   
   }
 }
