@@ -5,7 +5,15 @@ terraform {
    version = "~> 5.0"
   }
  }
-}
+
+ backend "s3" {
+   bucket = "devops-lab-tfstate-237575223274"
+   key = "vpc/terraform.tfstate"
+   region = "us-east-1"
+   use_lockfile = true
+   encrypt = true
+  }
+ }
 
 provider "aws" {
  region = var.aws_region
